@@ -1,9 +1,7 @@
 # Work Hours
 Xamarin Forms Application with design pattern <b>MVVM</b> and <b>CLEAN CODE</b> principles. Available on Android, iOS and Windows platforms
 
-![Screenshot](https://user-images.githubusercontent.com/68563526/124325397-e591a880-db5a-11eb-8835-c9cdbb7651e4.png)
-
-
+![Screenshot 2021-12-20 222701](https://user-images.githubusercontent.com/68563526/146860030-6d4033da-af3a-481d-b776-e25d88299283.png)
 
 <h2>Libraries</h2>
 
@@ -24,11 +22,11 @@ Xamarin Forms Application with design pattern <b>MVVM</b> and <b>CLEAN CODE</b> 
 	<Label Text="{extensions:Translate pokemonTypes}" FontSize="Caption"/>
 
 <h2>Models</h2>
-Three main classes <b>Pokemon, PokemonTypes and PokemonTypesPokemon</b> the last one representing the <b>N:N</b> connection between the first two
+Three main classes <b>Payment, Work and WorkBalance</b>
 <p></p>
 <p></p>
 
-<p align="center"><img width="536" alt="ModelsDiagram" src="https://user-images.githubusercontent.com/68563526/124351276-c6812e00-dbcf-11eb-9037-be0d072be859.png"></p>
+![ModelsDiagram](https://user-images.githubusercontent.com/68563526/146860226-eedef8e9-7a8b-4cf1-a37a-9cd31c2c4f2f.png)
 
 <h2>Business</h2>
 Layer between model and viewModel responsible for data validation and new business rules;
@@ -51,7 +49,9 @@ In this layer, inheritance and generics techniques <b>combined</b> were used, to
 	TBusiness : BaseBusiness<TModel>, new() where 
 	TDataManager : BaseManager<TModel>, new()
     { ... }
-    
+
+![BaseViewModelsDiagram - Copy](https://user-images.githubusercontent.com/68563526/146860614-d5f922a6-8772-45b9-9442-dd299f76ce3e.png)
+
 <h2>View</h2>
 Layer representing the page and injecting the viewModel.
 <p></p>
