@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:EditWorkXaml xmlns="http://xamarin.com/schemas/2014/forms"
+                       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                       xmlns:views="clr-namespace:Core.Views"
+                       xmlns:viewModels="clr-namespace:Core.ViewModels"
+                       xmlns:controls="clr-namespace:Core.Controls" 
+                       xmlns:extensions="clr-namespace:Core.Extensions"
+                       x:DataType="viewModels:EditWorkViewModel"
+                       x:Class="Core.Views.EditWorkPage"
+                       Shell.PresentationMode="Modal"
+                       Title="{extensions:Translate work}">
+    <ScrollView>
+        <StackLayout Padding="12" Spacing="12">
+
+            <!--#region Day of Week -->
+            <Label Text="{extensions:Translate day-of-week}" />
+
+            <Picker SelectedItem="{Binding Business.Model.DayOfWeek, Mode=TwoWay}"
+                    ItemDisplayBinding="{Binding Name, Mode=OneWay}"
+                    ItemsSource="{Binding DaysOfWeek, Mode=OneWay}"/>
+
+            <controls:LabelControl Text="{Binding Business.DayOfWeekValidation, Mode=OneWay}"
+                                   TextColor="{StaticResource AlertColor}" />
+            <!--#endregion-->
+
+            <!--#region Start -->
+            <Label Text="{extensions:Translate start}" />
+            <TimePicker Time="{Binding Business.Model.StartHour, Mode=TwoWay}" />
+            <controls:LabelControl Text="{Binding Business.StartHourValidation, Mode=OneWay}"
+                                   TextColor="{StaticResource AlertColor}" />
+            <!--#endregion-->
+
+            <!--#region Finish -->
+            <Label Text="{extensions:Translate finish}" />
+
+            <TimePicker Time="{Binding Business.Model.FinishHour, Mode=TwoWay}" />
+            <controls:LabelControl Text="{Binding Business.FinishHourValidation, Mode=OneWay}"
+                                   TextColor="{StaticResource AlertColor}" />
+            <!--#endregion-->
+
+            <!--#region Buttons -->
+            <Button Text="{extensions:Translate save}" Command="{Binding SaveCommand, Mode=OneWay}" />
+            <Button Text="{extensions:Translate cancel}" Command="{Binding CancelCommand, Mode=TwoWay}"/>
+            <!--#endregion-->
+            
+        </StackLayout>
+    </ScrollView>
+</views:EditWorkXaml>

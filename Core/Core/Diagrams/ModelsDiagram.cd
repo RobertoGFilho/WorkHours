@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Core.Models.DayOfWeek">
+    <Position X="0.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="name" Hidden="true" />
+      <Field Name="number" Hidden="true" />
+      <Field Name="payments" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAABAQAAAAEAAAAQAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\DayOfWeek.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.Models.Payment" Collapsed="true">
+    <Position X="0.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Payment.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.Models.Employee">
+    <Position X="5.75" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="name" Hidden="true" />
+      <Field Name="workBalance" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAEQAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Employee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Core.Models.WorkBalance">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="employee" Hidden="true" />
+      <Field Name="employeeId" Hidden="true" />
+      <Field Name="totalPaid" Hidden="true" />
+      <Field Name="works" Hidden="true" />
+    </Members>
+    <AssociationLine Name="Employee" Type="Core.Models.Employee">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.282" Y="0.06" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAACAAAAAAAEAYAABAGAAA=</HashCode>
+      <FileName>Models\WorkBalance.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Employee" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Core.Models.Work">
+    <Position X="3" Y="3.25" Width="1.5" />
+    <Members>
+      <Field Name="workBalance" Hidden="true" />
+      <Field Name="workBalanceId" Hidden="true" />
+    </Members>
+    <AssociationLine Name="WorkBalance" Type="Core.Models.WorkBalance">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.128" Y="0.431" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAABAAAAAQAAAAAAAAAAAAAAAQAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Models\Work.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="WorkBalance" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Core.Models.Schedule">
+    <Position X="0.75" Y="3" Width="1.5" />
+    <Members>
+      <Field Name="amounPaid" Hidden="true" />
+      <Field Name="dayOfWeek" Hidden="true" />
+      <Field Name="dayOfWeekId" Hidden="true" />
+      <Field Name="finishHour" Hidden="true" />
+      <Method Name="OnPropertyChanged" Hidden="true" />
+      <Field Name="startHour" Hidden="true" />
+    </Members>
+    <AssociationLine Name="DayOfWeek" Type="Core.Models.DayOfWeek">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.11" Y="0.435" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAACABAABAAAAIAAAAAAAAAgBAAAIIIAEACAAAAA=</HashCode>
+      <FileName>Models\Schedule.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DayOfWeek" />
+    </ShowAsAssociation>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

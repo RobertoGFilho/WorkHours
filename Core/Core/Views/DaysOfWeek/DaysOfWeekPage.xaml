@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:DaysOfWeekXaml xmlns="http://xamarin.com/schemas/2014/forms"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                         xmlns:views="clr-namespace:Core.Views" 
+                         xmlns:viewmodels="clr-namespace:Core.ViewModels" 
+                         xmlns:models="clr-namespace:Core.Models"
+                         xmlns:business="clr-namespace:Core.Business"
+                         xmlns:extensions="clr-namespace:Core.Extensions"
+                         x:DataType="viewmodels:DaysOfWeekViewModel"
+                         x:Class="Core.Views.DaysOfWeekPage"
+                         Title="{extensions:Translate days-of-week}">
+
+    <CollectionView ItemsSource="{Binding Items}"
+                    Margin="0,12">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <!--content-->
+                <Grid x:DataType="business:DayOfWeekBusiness">
+
+                    <Frame Margin="9,3">
+                        <StackLayout>
+                            <!--day-->
+                            <Label Text="{Binding Model.Name, Mode=OneWay}"
+                               Style="{StaticResource TitleStyle}"/>
+
+                            <!--payments-->
+                            <StackLayout BindableLayout.ItemsSource="{Binding Payments}">
+                                <BindableLayout.ItemTemplate>
+                                    <DataTemplate x:DataType="models:Payment">
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding StartHour, Mode=OneWay,  StringFormat='{}start {0:hh\\:mm}'}" CharacterSpacing="1"/>
+                                                    <Span Text="{Binding FinishHour, Mode=OneWay, StringFormat='{}   finish {0:hh\\:mm}'}" CharacterSpacing="1"/>
+                                                    <Span Text="{Binding AmounPaid, Mode=OneWay,  StringFormat='{}   US$ {0:00}'}" CharacterSpacing="1" FontAttributes="Bold"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                    </DataTemplate>
+                                </BindableLayout.ItemTemplate>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</views:DaysOfWeekXaml>

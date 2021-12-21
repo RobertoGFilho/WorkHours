@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:EmployeesXaml xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:views="clr-namespace:Core.Views" 
+                    xmlns:viewmodels="clr-namespace:Core.ViewModels" 
+                    xmlns:business="clr-namespace:Core.Business"
+                    xmlns:extensions="clr-namespace:Core.Extensions"
+                    x:DataType="viewmodels:EmployeesViewModel"
+                    x:Class="Core.Views.EmployeesPage"
+                    Title="{extensions:Translate work-hours}">
+
+    <views:EmployeesXaml.ToolbarItems>
+        <ToolbarItem Text="{extensions:Translate add}" Command="{Binding NewCommand}" IconImageSource="{StaticResource Add}"/>
+    </views:EmployeesXaml.ToolbarItems>
+    
+    <CollectionView ItemsSource="{Binding Items}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+                    SelectionChangedCommand="{Binding SelectCommand}"
+                    Margin="0,12">
+        
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <SwipeView x:DataType="business:EmployeeBusiness">
+                    <SwipeView.RightItems>
+                        <SwipeItem IconImageSource="{StaticResource Remove}"
+                                   BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundColorDark}, Light={StaticResource BackgroundColorLight}}"
+                                   Invoked="OnRemove"/>
+                    </SwipeView.RightItems>
+
+                    <!--content-->
+                    <Frame Margin="9,3">
+                        <Grid ColumnDefinitions="*,auto">
+                            <Label Text="{Binding Model.Name, Mode=OneWay}"
+                                   Style="{StaticResource TitleStyle}"
+                                   LineBreakMode="TailTruncation"
+                                   Grid.Column="0"/>
+
+                            <Label Text="{Binding Model.WorkBalance.TotalPaid, Mode=OneWay, StringFormat='{}US$ {0:0.00}'}"
+                                   Style="{StaticResource TitleStyle}"
+                                   Grid.Column="1"/>
+                        </Grid>
+                    </Frame>
+                </SwipeView>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</views:EmployeesXaml>

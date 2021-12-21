@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:EmployeeDetailsXaml xmlns="http://xamarin.com/schemas/2014/forms"
+                           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                           xmlns:views="clr-namespace:Core.Views"
+                           xmlns:viewModels="clr-namespace:Core.ViewModels"
+                           xmlns:business="clr-namespace:Core.Business"
+                           xmlns:extensions="clr-namespace:Core.Extensions"
+                           x:DataType="viewModels:EmployeeDetailsViewModel"
+                           x:Class="Core.Views.EmployeeDetailsPage"
+                           Title="{Binding Business.Model.Name, Mode=OneWay}">
+
+    <views:EmployeeDetailsXaml.ToolbarItems>
+        <ToolbarItem Text="{extensions:Translate add}" Command="{Binding NewWorkCommand}" IconImageSource="{StaticResource Add}"/>
+    </views:EmployeeDetailsXaml.ToolbarItems>
+
+    <ScrollView>
+        <StackLayout Margin="24" Spacing="12">
+
+
+            <Frame>
+                <StackLayout>
+                    
+                    <!--#region Balance -->
+                    
+                    <Label Text="{Binding Business.Model.WorkBalance.TotalPaid, Mode=OneWay, StringFormat='{}US$ {0:0.00}'}"
+                           Style="{StaticResource TitleStyle}"
+                           HorizontalTextAlignment="End"
+                           LineBreakMode="WordWrap"/>
+
+                    <Label Text="{extensions:Translate balance}" 
+                           FontSize="Caption"
+                           HorizontalTextAlignment="End"/>
+                    <!--#endregion-->
+
+                </StackLayout>
+                
+            </Frame>
+            
+            <!--#region Works -->
+
+            <Label Text="Worked"
+                   Style="{StaticResource TitleStyle}"/>
+
+            <CollectionView ItemsSource="{Binding Works}">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView x:DataType="business:WorkBusiness">
+                            <SwipeView.RightItems>
+                                <SwipeItem IconImageSource="{StaticResource Remove}"
+                                           BackgroundColor="{AppThemeBinding Dark={StaticResource BackgroundColorDark}, Light={StaticResource BackgroundColorLight}}"
+                                           Invoked="OnWorkRemove"/>
+                            </SwipeView.RightItems>
+
+                            <!--content-->
+                            <Frame Margin="0,6">
+                                <Grid ColumnDefinitions="*,auto,auto,auto">
+                                    <Label Text="{Binding Model.DayOfWeek.Name, Mode=OneWay}"
+                                               Grid.Column="0"/>
+                                    <Label Text="{Binding Model.StartHour, Mode=OneWay, StringFormat='{}{0:hh\\:mm}'}"
+                                               Grid.Column="1"/>
+                                    <Label Text="{Binding Model.FinishHour, Mode=OneWay, StringFormat='{}{0:hh\\:mm}'}"
+                                               Grid.Column="2"/>
+                                    <Label Text="{Binding Model.AmounPaid, Mode=OneWay, StringFormat='{}US$ {0:0.00}'}"
+                                               Grid.Column="3"/>
+                                </Grid>
+                            </Frame>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!--#endregion-->
+
+
+
+        </StackLayout>
+    </ScrollView>
+
+</views:EmployeeDetailsXaml>

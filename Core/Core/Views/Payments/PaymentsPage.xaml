@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<views:PaymentsXaml xmlns="http://xamarin.com/schemas/2014/forms"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                         xmlns:views="clr-namespace:Core.Views" 
+                         xmlns:viewmodels="clr-namespace:Core.ViewModels" 
+                         xmlns:business="clr-namespace:Core.Business"
+                         xmlns:extensions="clr-namespace:Core.Extensions"
+                         x:DataType="viewmodels:PaymentsViewModel"
+                         x:Class="Core.Views.PaymentsPage"
+                         Title="{extensions:Translate payments}">
+
+    <CollectionView ItemsSource="{Binding Items}"
+                    Margin="0,12">
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid>
+                    <SwipeView x:DataType="business:PaymentBusiness">
+
+                        <!--content-->
+                        <Grid>
+
+                            <Frame Margin="9,3">
+                                <Grid RowDefinitions="auto,auto">
+                                    
+                                    <!--day-->
+                                    <Label Style="{StaticResource TitleStyle}"
+                                           LineBreakMode="TailTruncation">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Model.DayOfWeek.Name, Mode=OneWay}"/>
+                                                <Span Text="{Binding Model.StartHour, Mode=OneWay, StringFormat='{} {0:hh\\:mm}'}"/>
+                                                <Span Text="{Binding Model.FinishHour, Mode=OneWay, StringFormat='{} - {0:hh\\:mm} hours'}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <!--day-->
+                                    <Label Text="{Binding Model.AmounPaid, Mode=OneWay, StringFormat='{}US$ {0:00}'}"
+                                           Grid.Row="1"/>
+                                </Grid>
+                            </Frame>
+
+                        </Grid>
+                    </SwipeView>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+    </CollectionView>
+
+</views:PaymentsXaml>
