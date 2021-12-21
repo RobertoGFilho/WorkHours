@@ -3,6 +3,12 @@ Xamarin Forms Application with design pattern <b>MVVM</b> and <b>CLEAN CODE</b> 
 
 ![Screenshot 2021-12-20 222701](https://user-images.githubusercontent.com/68563526/146860030-6d4033da-af3a-481d-b776-e25d88299283.png)
 
+<h2>IDE and Project</h2>
+
+* Microsoft Visual Studio 2019;
+* Xamarin Forms Project;
+
+
 <h2>Libraries</h2>
 
 * Microsoft.EntityFrameworkCore.Sqlite : database abstraction layer;
@@ -76,65 +82,25 @@ Whenever model structures are changed, adding or removing fields or new models, 
         }
     }
 
-<h2>Pagination</h2>
-Strategy used to load data automatically, <b>data pages</b>, from local database after all records displayed new data pages are downloaded from REST API https://pokeapi.co e stored locally.
+<h2>Set Amout Paid</h2>
 <p></p>
 
-	public async Task<IQueryable<Pokemon>> GetPokemons(int skip)
+	private void SetAmounPaid(Work model)
         {
-            int limit = 10;
+            var start = model.StartHour;
+            var finish = (model.FinishHour.Hours == 0) ? new TimeSpan(24, 0, 0) : model.FinishHour;
             
-            var pokemons = Database.Pokemons
-                .OrderBy(o => o.PokemonId)
-                .Skip(skip)
-                .Take(limit);
-
-            if (pokemons.Count() == 0)
+            while (start < finish)
             {
-                pokemons = (await Service.GetPokemonsAsync(skip, limit)).AsQueryable();
+                var payment = paymentsManager.GetPaymentFromTime(start.Add(new TimeSpan(0, 1, 0)), model.DayOfWeek);
 
-                if (pokemons.Count() > 0)
+                if (payment != null)
                 {
-                    Database.Pokemons.AddRange(pokemons);
-                    var pokemonTypesManager = new PokemonTypesManager();
-                    var pokemonTypes = await pokemonTypesManager.GetAll();
-
-                    foreach (var pokemon in pokemons)
-                    {
-                        var pokemonDetails = await Service.GetPokemonDetailsAsync(pokemon.Name);
-
-                        if (pokemonDetails != null)
-                        {
-                            pokemon.PokemonId = pokemonDetails.Id;
-                            pokemon.Height = pokemonDetails.Height;
-                            pokemon.Weight = pokemonDetails.Weight;
-                            pokemon.Image = pokemonDetails.Sprite?.Image;
-
-                            var typeDetailsNames = pokemonDetails.TypeDetailsServices?
-			    .Select(s => s.PokemonType?.Name);
-
-                            if (typeDetailsNames.Count() > 0)
-                            {
-                                var newPokemonTypes = pokemonTypes.Where(p => typeDetailsNames.Contains(p.Name));
-
-                                foreach (var newPokemonType in newPokemonTypes)
-                                {
-                                    PokemonTypePokemon pokemonTypePokemon = new PokemonTypePokemon
-                                    {
-                                        PokemonType = newPokemonType,
-                                        Pokemon = pokemon
-                                    };
-
-                                    Database.PokemonTypesPokemons.Add(pokemonTypePokemon);
-                                }
-                            }
-                        }
-                    }
-
-                    Database.SaveChanges();
+                    model.AmounPaid += payment.AmounPaid;
                 }
+
+                start = start.Add(new TimeSpan(1, 0, 0));
             }
-            return GetIncludes(pokemons);
         }
 
 <h2>Image Font</h2>
@@ -142,53 +108,7 @@ Strategy used to load data automatically, <b>data pages</b>, from local database
 Strategy used to use icons, in the action bar, from true type fonts.
 * icofont.ttf;
 * material.ttf;
-
-<h2>API REST</h2>
-
-Class responsible for downloading and deserializing endpoint jason file https://pokeapi.co/api/v2/
-
-    public static class Service
-    {
-        static HttpClient client = new HttpClient();
-        
-        public static async Task<IList<Pokemon>> GetPokemonsAsync(int offset, int limit)
-        {
-            try
-            {
-                var current = Connectivity.NetworkAccess;
-
-                if (current == NetworkAccess.Internet)
-                {
-                    var request = new HttpRequestMessage
-                    {
-                        Method = HttpMethod.Get,
-                        RequestUri = new Uri($"https://pokeapi.co/api/v2/pokemon/
-                        ?offset={offset}&limit={limit}"),
-                    };
-
-                    using (var response = await client.SendAsync(request))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            var jsonString = await response.Content.ReadAsStringAsync();
-                            PokemonsService pokemonsService = 
-                            JsonSerializer.Deserialize<PokemonsService>(jsonString);
-
-                            if (pokemonsService.Pokemons?.Count > 0)
-                            {
-                                return pokemonsService.Pokemons;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception) { }
-
-            return null;
-        }
-        
-    }
-    
+ 
 <h2>Navigation</h2>
 
 Injecting the "views" page navigation service through view model navigation
